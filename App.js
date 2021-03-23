@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 export default function App() {
     const [people, setPeople] = useState([
@@ -8,10 +8,23 @@ export default function App() {
         {id: '2', name: 'Reza'},
     ]);
     
+    const itemPressHandler = (id) => {
+        setPeople((oldPeople) => {
+            return oldPeople.map(person => {
+                if (person.id === id)
+                    person.name += ' Clicked';
+                
+                return person;
+            });
+        });
+    };
+    
     return (
         <View style={styles.container}>
             <FlatList data={people} renderItem={({item: person}) => (
-                <Text style={styles.person}>{person.name}</Text>
+                <TouchableOpacity onPress={() => itemPressHandler(person.id)}>
+                    <Text style={styles.person}>{person.name}</Text>
+                </TouchableOpacity>
             )}/>
         </View>
     );
